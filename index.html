@@ -14,22 +14,19 @@
         <input type="text" name="todo-search" value="" placeholder="Search...">
         <button type="submit"><i class="fa fa-search"></i></button>
       </form>
+      <p class="todo-filter"></p>
       <div class="todo-list">
         <ul></ul>
       </div>
       <form class="add-todo">
-        <input type="text" name="todo-add" value="" placeholder="Add todo...">
+        <input type="text" required name="add-todo" value="" placeholder="Add todo...">
         <button type="submit"><i class="fa fa-plus"></i></button>
       </form>
     </div>
     <div class="todo-actions">
       <ul>
-        <li class="edit">
-          <a href=""><i class="fa fa-pencil"></i></a>
-        </li>
-        <li class="remove">
-          <a href=""><i class="fa fa-times"></i></a>
-        </li>
+        <li><a class="edit" href=""><i class="fa fa-pencil"></i></a></li>
+        <li><a class="remove" href=""><i class="fa fa-times"></i></a></li>
       </ul>
     </div>
 	</body>

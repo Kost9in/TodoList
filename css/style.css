@@ -58,22 +58,68 @@ input[type="submit"], button {
 }
 
 .todo-search, .add-todo {
-  outline: 1px solid red;
+  position: relative;
 }
 
-.todo-search input, .add-todo input {
+.todo-search input, .add-todo input, .todo-list ul li input {
   display: block;
   width: 100%;
   height: 40px;
   border: 1px solid #aaa;
   border-radius: 5px;
-  padding: 0 5%;
+  padding: 0 55px 0 15px;
   transition: .3s;
 }
 
 .todo-search input:focus, .add-todo input:focus {
   border: 1px solid #1E89DC;
   box-shadow: 0 0 3px #1E89DC;
+}
+
+.todo-search button, .add-todo button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 18px;
+  background: #eee;
+  transition: .3s;
+}
+
+.todo-search button i, .add-todo button i {
+  transition: .3s;
+}
+
+.todo-search button:hover, .add-todo button:hover {
+  background: #ddd;
+}
+
+.todo-search button:hover i, .add-todo button:hover i {
+  transform: scale(0.8);
+}
+
+.todo-filter {
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.todo-filter .remove {
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+.todo-filter .remove i {
+  transition: .3s;
+}
+
+.todo-filter .remove:hover i {
+  transform: scale(1.2);
 }
 
 .todo-list {
@@ -100,6 +146,12 @@ input[type="submit"], button {
   user-select: none; 
 }
 
+.todo-list ul li.empty {
+  cursor: default;
+  text-align: center;
+  padding: 30px 20px;
+}
+
 .todo-list ul li:before {
   position: absolute;
   content: '';
@@ -122,12 +174,20 @@ input[type="submit"], button {
   background: #eee;
 }
 
+.todo-list ul li.empty:hover {
+  background: #fff;
+}
+
 .todo-list ul li.selected {
   background: #ABD9FF;
 }
 
 .todo-list ul li.selected:before {
   opacity: 1;
+}
+
+.todo-list ul li input {
+  padding-right: 15px;
 }
 
 .todo-actions {
@@ -149,14 +209,6 @@ input[type="submit"], button {
   border: 1px solid #aaa;
 }
 
-.todo-actions ul li {
-  border-right: 1px solid #aaa;
-}
-
-.todo-actions ul li:last-child {
-  border-right: 0;
-}
-
 .todo-actions ul li a {
   display: flex;
   align-items: center;
@@ -171,4 +223,12 @@ input[type="submit"], button {
 
 .todo-actions ul li a:hover {
   background: #eee;
+}
+
+.todo-actions .edit {
+  border-right: 1px solid #aaa;
+}
+
+.todo-actions.many .edit {
+  display: none;
 }
