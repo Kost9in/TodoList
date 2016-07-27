@@ -2,9 +2,35 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Document</title>
+		<title>Todo List</title>
+      <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
+     <link rel="stylesheet" href="./css/style.css">
+     <script src="./js/todo.js"></script>
+     <script src="./js/script.js"></script>
 	</head>
 	<body>
-  
+    <div class="todo-wrapper">
+      <form class="todo-search">
+        <input type="text" name="todo-search" value="" placeholder="Search...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+      <div class="todo-list">
+        <ul></ul>
+      </div>
+      <form class="add-todo">
+        <input type="text" name="todo-add" value="" placeholder="Add todo...">
+        <button type="submit"><i class="fa fa-plus"></i></button>
+      </form>
+    </div>
+    <div class="todo-actions">
+      <ul>
+        <li class="edit">
+          <a href=""><i class="fa fa-pencil"></i></a>
+        </li>
+        <li class="remove">
+          <a href=""><i class="fa fa-times"></i></a>
+        </li>
+      </ul>
+    </div>
 	</body>
 </html>
