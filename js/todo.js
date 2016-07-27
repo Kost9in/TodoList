@@ -12,12 +12,19 @@ class Todo {
     this.listWrapper.addEventListener('click', e => {
       if (e.target.tagName === 'LI') {
         e.preventDefault();
-        const event = {
-          idx: +e.target.getAttribute('data-idx'),
-          ctrl: e.ctrlKey,
-          shift: e.shiftKey
+        const selectConfig = {
+          start: +e.target.getAttribute('data-idx')
         };
-        this.select.call(this, event);
+
+        if (e.ctrlKey) {
+          selectConfig.type = 'multiple';
+        } else if (e.shiftKey) {
+          selectConfig.type = 'range';
+          if (this.selected.length) selectConfig.end = this.selected[0];
+        } else {
+          selectConfig.type = 'one';
+        }
+        this.select.call(this, selectConfig);
       }
     });
     this.render();
@@ -79,26 +86,26 @@ class Todo {
     this.onChange(this.items); // callback
   }
 
-  select (event) {
-    if (typeof event === 'undefined') this.selected = [];
+  select (config) {
+    if (typeof config === 'undefined') this.selected = [];
     else {
-      if (event.ctrl) {
-        const indexOf = this.selected.indexOf(event.idx);
+      if (config.type === 'multiple') {
+        const indexOf = this.selected.indexOf(config.start);
         if (indexOf !== -1) this.selected.splice(indexOf, 1);
-        else this.selected.push(event.idx);
-      } else if (event.shift) {
-        if (this.selected.length) {
-          const first = this.selected[0];
-          this.selected = [first];
-          while (event.idx !== first) {
-            this.selected.push(event.idx);
-            if (event.idx > first) event.idx--;
-            else event.idx++;
+        else this.selected.push(config.start);
+      } else if (config.type === 'range') {
+        this.selected = [];
+        if (typeof config.end !== 'undefined') {
+          while (config.end !== config.start) {
+            this.selected.push(config.end);
+            if (config.end > config.start) config.end--;
+            else config.end++;
           }
-        } else this.selected = [event.idx];
+        } 
+        this.selected.push(config.start);
       } else {
-        if (this.selected.indexOf(event.idx) !== -1 && this.selected.length === 1) this.selected = [];
-        else this.selected = [event.idx];
+        if (this.selected.indexOf(config.start) !== -1 && this.selected.length === 1) this.selected = [];
+        else this.selected = [config.start];
       }
     }
     this.render();
