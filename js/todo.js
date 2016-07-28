@@ -35,15 +35,7 @@ class Todo {
     this.select();
   }
 
-  add (newItem) {
-    if (newItem) {
-      this.items.push(newItem);
-      this.save();
-    }
-    this.select();
-  }
-
-  edit () {
+  edit (callback) {
     const editIdx = this.selected[0];
     const editLi = this.listWrapper.querySelector(`li[data-idx="${editIdx}"]`);
 
@@ -60,30 +52,12 @@ class Todo {
       e.stopPropagation();
     });
     input.addEventListener('blur', (e) => {
-      saveItem(e.currentTarget.value.trim());
+      callback(editIdx, e.currentTarget.value.trim());
     });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      saveItem(e.currentTarget.querySelector('input').value.trim());
+      callback(editIdx, e.currentTarget.querySelector('input').value.trim());
     });
-
-    const saveItem = (value) => {
-      if (value) {
-        this.items[editIdx] = value;
-        this.save();
-      }
-      this.select();
-    };
-  }
-
-  remove () {
-    this.items = this.items.filter((item, idx) => this.selected.indexOf(idx) === -1);
-    this.save();
-    this.select();
-  }
-
-  save () {
-    this.onChange(this.items); // callback
   }
 
   select (config) {

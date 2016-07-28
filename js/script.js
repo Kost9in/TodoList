@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
   const qs = selector => document.querySelector(selector);
 
+  const todoItems = new DataStorage(JSON.parse(localStorage.todoItems));
+
   const todo = new Todo({
-    items: (localStorage.todoItems) ? JSON.parse(localStorage.todoItems) : [],
+    items: todoItems.select(),
     listWrapper: '.todo-wrapper .todo-list ul',
     onSelect: (selected) => { // select items
       const actionsWrapper = qs('.todo-actions');
@@ -14,9 +16,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
         else actionsWrapper.classList.remove('many');
       }
       else actionsWrapper.classList.remove('show');
-    },
-    onChange: (items) => { // save items
-      localStorage.todoItems = JSON.stringify(items);
     }
   });
 
@@ -24,20 +23,33 @@ document.addEventListener('DOMContentLoaded', function(event) {
   qs('.todo-wrapper form.add-todo').addEventListener('submit', e => {
     e.preventDefault();
     const input = e.currentTarget.querySelector('input[name="add-todo"]');
-    todo.add.call(todo, input.value.trim());
+    todoItems.insert(input.value.trim());
     input.value = '';
+  });
+  todoItems.subscribe('insert', (item, items) => {
+    localStorage.todoItems = JSON.stringify(items);
+    todo.select();
   });
 
   /* edit items */
   qs('.todo-actions .edit').addEventListener('click', e => {
     e.preventDefault();
-    todo.edit.call(todo);
+    todo.edit((idx, item) => todoItems.update(idx, item));
+  });
+  todoItems.subscribe('update', (item, items) => {
+    localStorage.todoItems = JSON.stringify(items);
+    todo.select();
   });
 
   /* remove items */
   qs('.todo-actions .remove').addEventListener('click', e => {
     e.preventDefault();
-    todo.remove.call(todo);
+    todoItems.delete(todo.selected);
+
+  });
+  todoItems.subscribe('delete', (items) => {
+    localStorage.todoItems = JSON.stringify(items);
+    todo.select();
   });
 
   /* filter items */
